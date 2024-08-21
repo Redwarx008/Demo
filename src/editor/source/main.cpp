@@ -28,7 +28,8 @@
 #include <memory>
 #include <iomanip>
 #include <iostream>
-
+#include <fstream>
+#include <vector>
 #ifndef NOMINMAX
 #    define NOMINMAX
 #endif
@@ -77,6 +78,25 @@ using namespace Diligent;
 
 // Diligent Engine can use HLSL source on all supported platforms.
 // It will convert HLSL to GLSL in OpenGL mode, while Vulkan backend will compile it directly to SPIRV.
+
+std::vector<char> LoadFile(const char* fileName)
+{
+    std::ifstream file(fileName, std::ios::ate | std::ios::binary);
+
+    if (!file.is_open()) {
+        throw std::runtime_error("failed to open file!");
+    }
+
+    size_t fileSize = (size_t)file.tellg();
+    std::vector<char> buffer(fileSize);
+
+    file.seekg(0);
+    file.read(buffer.data(), fileSize);
+
+    file.close();
+
+    return buffer;
+}
 
 static const char* VSSource = R"(
 struct PSInput 
@@ -334,16 +354,19 @@ public:
         ShaderCreateInfo ShaderCI;
         // Tell the system that the shader source code is in HLSL.
         // For OpenGL, the engine will convert this into GLSL under the hood
-        ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+        ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_GLSL_VERBATIM;
         // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
         ShaderCI.Desc.UseCombinedTextureSamplers = true;
         // Create a vertex shader
+        std::vector<char> vs = LoadFile("vert.spv");
+        std::vector<char> fs = LoadFile("frag.spv");
         RefCntAutoPtr<IShader> pVS;
         {
             ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "Triangle vertex shader";
-            ShaderCI.Source = VSSource;
+            ShaderCI.ByteCode = vs.data();
+            ShaderCI.ByteCodeSize = vs.size();
             m_pDevice->CreateShader(ShaderCI, &pVS);
         }
 
@@ -353,7 +376,8 @@ public:
             ShaderCI.Desc.ShaderType = SHADER_TYPE_PIXEL;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "Triangle pixel shader";
-            ShaderCI.Source = PSSource;
+            ShaderCI.ByteCode = fs.data();
+            ShaderCI.ByteCodeSize = fs.size();
             m_pDevice->CreateShader(ShaderCI, &pPS);
         }
 
