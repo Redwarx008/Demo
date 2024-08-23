@@ -9,28 +9,28 @@ namespace GameCore
         static const float s_fps_alpha;
 
     public:
-        void startEngine(const std::string& config_file_path);
-        void shutdownEngine();
+        void StartEngine(const std::string& config_file_path);
+        void ShutdownEngine();
 
-        void initialize();
-        void clear();
+        void Initialize();
+        void Clear();
 
-        bool isQuit() const { return m_is_quit; }
-        void run();
-        bool tickOneFrame(float delta_time);
+        bool IsQuit() const { return m_is_quit; }
+        void Run();
+        bool TickOneFrame(float delta_time);
 
-        int getFPS() const { return m_fps; }
+        int GetFPS() const { return m_fps; }
 
     protected:
-        void logicalTick(float delta_time);
-        bool rendererTick(float delta_time);
+        void LogicalTick(float delta_time);
+        bool RendererTick(float delta_time);
 
-        void calculateFPS(float delta_time);
+        void CalculateFPS(float delta_time);
 
         /**
          *  Each frame can only be called once
          */
-        float calculateDeltaTime();
+        float CalculateDeltaTime();
 
     protected:
         bool m_is_quit{ false };

@@ -23,17 +23,19 @@ namespace GameCore
         // destroy all global systems
         void shutdownSystems();
 
-        std::shared_ptr<LogSystem>         m_logger_system;
-        std::shared_ptr<InputSystem>       m_input_system;
-        std::shared_ptr<FileSystem>        m_file_system;
-        //std::shared_ptr<AssetManager>      m_asset_manager;
-        std::shared_ptr<ConfigManager>     m_config_manager;
-        std::shared_ptr<WorldManager>      m_world_manager;
-        //std::shared_ptr<PhysicsManager>    m_physics_manager;
-        std::shared_ptr<WindowSystem>      m_window_system;
-        std::shared_ptr<RenderSystem>      m_render_system;
-        //std::shared_ptr<ParticleManager>   m_particle_manager;
-        //std::shared_ptr<DebugDrawManager>  m_debugdraw_manager;
-        //std::shared_ptr<RenderDebugConfig> m_render_debug_config;
+        std::shared_ptr<LogSystem>         logger_system;
+        std::shared_ptr<InputSystem>       input_system;
+        std::shared_ptr<FileSystem>        file_system;
+        //std::shared_ptr<AssetManager>      asset_manager;
+        std::shared_ptr<ConfigManager>     config_manager;
+        std::shared_ptr<WorldManager>      world_manager;
+        //std::shared_ptr<PhysicsManager>    physics_manager;
+        std::shared_ptr<WindowSystem>      window_system;
+        std::shared_ptr<RenderSystem>      render_system;
+        //std::shared_ptr<ParticleManager>   particle_manager;
+        //std::shared_ptr<DebugDrawManager>  debugdraw_manager;
+        //std::shared_ptr<RenderDebugConfig> render_debug_config;
     };
+
+    extern RuntimeContext g_runtime_context;
 }
