@@ -1,5 +1,6 @@
 #include "window_system.h"
 
+#include "runtime/core/macro.h"
 namespace GameCore
 {
     WindowSystem::~WindowSystem()
