@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <stdexcept>
 
-namespace Piccolo
+namespace GameCore
 {
 
     class LogSystem final
