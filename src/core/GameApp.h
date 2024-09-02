@@ -28,20 +28,15 @@ namespace GameCore
 	class GameApp
 	{
     public:
+        GameApp() = default;
+        virtual ~GameApp();
         void Initialize(const AppInitInfo& initInfo);
         void Run();
+        void Quit();
+
         virtual void Startup() = 0;
         virtual void Cleanup() = 0;
     protected:
         virtual void Update();
-
-    protected:
-        bool m_is_quit{ false };
-
-        std::chrono::steady_clock::time_point m_last_tick_time_point{ std::chrono::steady_clock::now() };
-
-        float m_average_duration{ 0.f };
-        int   m_frame_count{ 0 };
-        int   m_fps{ 0 };
 	};
 }
